@@ -11,14 +11,17 @@ import (
 )
 
 // OperationHandlerFunc runs the actual business logic - request is whatever you constructed in RequestFactoryFunc
-type OperationHandlerFunc func(request interface{}, w http.ResponseWriter, httpRequest *http.Request) (response interface{}, err error)
+type OperationHandlerFunc func(header interface{}, request interface{}, w http.ResponseWriter, httpRequest *http.Request) (response interface{}, err error)
 
 // RequestFactoryFunc constructs a request object for OperationHandlerFunc
 type RequestFactoryFunc func() interface{}
 
+type HeaderFactoryFunc func() interface{}
+
 type dummyContent struct{}
 
 type operationHander struct {
+	headerFactory  HeaderFactoryFunc
 	requestFactory RequestFactoryFunc
 	handler        OperationHandlerFunc
 }
@@ -160,6 +163,9 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		// we need to find out, what is in the body
 		probeEnvelope := &Envelope{
+			Header: Header{
+				Security: &dummyContent{},
+			},
 			Body: Body{
 				Content: &dummyContent{},
 			},
@@ -179,8 +185,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		request := actionHandler.requestFactory()
+		header := actionHandler.headerFactory()
 		envelope := &Envelope{
-			Header: Header{},
+			Header: Header{
+				Security: header,
+			},
 			Body: Body{
 				Content: request,
 			},

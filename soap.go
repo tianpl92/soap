@@ -48,9 +48,8 @@ type Envelope struct {
 
 // Header type
 type Header struct {
-	XMLName xml.Name `xml:"http://schemas.xmlsoap.org/soap/envelope/ Header"`
-
-	Header interface{}
+	XMLName  xml.Name    `xml:"http://schemas.xmlsoap.org/soap/envelope/ Header"`
+	Security interface{} `xml:",omitempty"`
 }
 
 // Body type
