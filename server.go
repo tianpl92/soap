@@ -76,7 +76,7 @@ func (s *Server) UseSoap12() {
 }
 
 // RegisterHandler register to handle an operation
-func (s *Server) RegisterHandler(path string, action string, messageType string, requestFactory RequestFactoryFunc, operationHandlerFunc OperationHandlerFunc) {
+func (s *Server) RegisterHandler(path string, action string, messageType string, header HeaderFactoryFunc, requestFactory RequestFactoryFunc, operationHandlerFunc OperationHandlerFunc) {
 	_, pathHandlersOK := s.handlers[path]
 	if !pathHandlersOK {
 		s.handlers[path] = make(map[string]map[string]*operationHander)
