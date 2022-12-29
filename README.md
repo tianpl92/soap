@@ -113,7 +113,7 @@ func main() {
 
 ```
 
-## With Api tester like POSTMAN
+## CLIENT example XML Sintax and api tester service like POSTMAN (From body content)
 
 
 ```xml
