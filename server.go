@@ -87,6 +87,7 @@ func (s *Server) RegisterHandler(path string, action string, messageType string,
 	}
 	s.handlers[path][action][messageType] = &operationHander{
 		handler:        operationHandlerFunc,
+		headerFactory:  header,
 		requestFactory: requestFactory,
 	}
 }
